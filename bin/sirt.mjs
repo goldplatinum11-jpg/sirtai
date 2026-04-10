@@ -46,7 +46,7 @@ function fetch(baseUrl, apiKey, urlPath, method = 'GET', body = null) {
       });
     });
     req.on('error', reject);
-    req.setTimeout(30000, () => { req.destroy(); reject(new Error('timeout')); });
+    req.setTimeout(120000, () => { req.destroy(); reject(new Error('timeout')); });
     if (body) req.write(JSON.stringify(body));
     req.end();
   });
