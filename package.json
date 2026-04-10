@@ -1,0 +1,15 @@
+{
+  "name": "sirtai",
+  "version": "0.1.0",
+  "description": "SIRT.ai — External memory for AI. Encrypted knowledge graph with semantic search.",
+  "bin": {
+    "sirt": "./bin/sirt.mjs"
+  },
+  "type": "module",
+  "keywords": ["ai", "memory", "knowledge-graph", "mcp", "encryption", "semantic-search"],
+  "author": "SIRT.ai",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
