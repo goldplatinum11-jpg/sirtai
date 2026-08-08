@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const VERSION = "2.0.0";
+const VERSION = "2.0.1";
 const APP_URL = "https://app.sirtai.org";
 const SIGNUP_URL = `${APP_URL}/signup`;
 const CONNECT_URL = `${APP_URL}/connect-center`;
@@ -8,45 +8,45 @@ const QUICKSTART_URL = `${APP_URL}/docs/quickstart`;
 const PRICING_URL = `${APP_URL}/pricing`;
 
 function printSetup() {
-  console.log(`SIRT Brain setup\n
-1. Choose a plan or start signup:
+  console.log(`SIRT Brain 接続セットアップ\n
+1. プランを選択して申し込みます。
    ${SIGNUP_URL}
 
-2. After checkout, claim the one-time API key from the confirmation page.
+2. 決済完了後の受取ページで、一度だけ表示されるAPIキーをコピーします。
 
-3. Connect Claude, Claude Code, ChatGPT, or another MCP client:
+3. 接続センターでClaude、Claude Code、ChatGPT、Grokなどを接続します。
    ${CONNECT_URL}
 
-Full quickstart:
+詳しい接続ガイド:
    ${QUICKSTART_URL}
 
-Pricing:
+料金:
    ${PRICING_URL}`);
 }
 
 function printEndpoints() {
-  console.log(`SIRT Brain endpoints
+  console.log(`SIRT Brain 接続先
 
-MCP core:       ${APP_URL}/mcp/core
-MCP OAuth:      ${APP_URL}/mcp
-MCP read-only:  ${APP_URL}/mcp/readonly
-GPT Actions:    ${APP_URL}/gpt/v1
+MCP core（claude.ai）: ${APP_URL}/mcp/core
+MCP OAuth:              ${APP_URL}/mcp
+MCP 読み取り専用:       ${APP_URL}/mcp/readonly
+GPT Actions:            ${APP_URL}/gpt/v1
 
-Connection guide:
+接続ガイド:
   ${QUICKSTART_URL}`);
 }
 
 function printHelp() {
-  console.log(`sirt — SIRT Brain connection helper v${VERSION}
+  console.log(`sirt — SIRT Brain 接続ヘルパー v${VERSION}
 
-Commands:
-  init          Show the supported signup and connection flow
-  endpoints     Show current MCP and GPT endpoints
-  doctor        Check the live SIRT Brain service
-  version       Print the CLI version
-  help          Show this help
+コマンド:
+  init          申し込みから接続までの手順を表示
+  endpoints     現在のMCP・GPT接続先を表示
+  doctor        SIRT Brainの稼働状態を確認
+  version       CLIのバージョンを表示
+  help          このヘルプを表示
 
-This CLI never asks for or stores your SIRT API key. Use Connect Center for setup:
+このCLIはSIRT APIキーを要求・保存しません。設定は接続センターで行います。
   ${CONNECT_URL}`);
 }
 
@@ -58,26 +58,26 @@ async function doctor() {
       signal: AbortSignal.timeout(10_000),
     });
   } catch (error) {
-    console.error(`SIRT Brain is unreachable: ${error.message}`);
+    console.error(`SIRT Brainに接続できません: ${error.message}`);
     process.exitCode = 1;
     return;
   }
 
   if (!response.ok) {
-    console.error(`SIRT Brain health check failed: HTTP ${response.status}`);
+    console.error(`SIRT Brainの稼働確認に失敗しました: HTTP ${response.status}`);
     process.exitCode = 1;
     return;
   }
 
   const body = await response.json().catch(() => ({}));
   if (body.ok !== true) {
-    console.error("SIRT Brain returned an unexpected health response.");
+    console.error("SIRT Brainから想定外の応答が返りました。");
     process.exitCode = 1;
     return;
   }
 
-  console.log(`SIRT Brain is live: ${APP_URL}`);
-  console.log(`Connect: ${CONNECT_URL}`);
+  console.log(`SIRT Brain is live（稼働中）: ${APP_URL}`);
+  console.log(`接続センター: ${CONNECT_URL}`);
 }
 
 const command = process.argv[2] || "help";
@@ -104,7 +104,7 @@ switch (command) {
     printHelp();
     break;
   default:
-    console.error(`Unknown command: ${command}`);
-    console.error("Run `sirt help` for the supported launch commands.");
+    console.error(`不明なコマンドです: ${command}`);
+    console.error("`sirt help` で利用できるコマンドを確認してください。");
     process.exitCode = 1;
 }
