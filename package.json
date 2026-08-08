@@ -1,6 +1,6 @@
 {
   "name": "sirtai",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "SIRT.ai official connection helper for Claude, ChatGPT, Grok, Codex, and MCP clients.",
   "bin": {
     "sirt": "bin/sirt.mjs"
