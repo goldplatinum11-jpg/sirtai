@@ -1,27 +1,39 @@
 # sirtai
 
-The official connection helper for [SIRT Brain](https://app.sirtai.org) — shared memory for Claude, ChatGPT, and other MCP clients.
+[SIRT Brain](https://app.sirtai.org)公式の接続ヘルパーです。Claude、ChatGPT、Grok、Codexなどから共有メモリへ接続できます。
 
-## Connect
+## インストールと稼働確認
+
+Node.js 18以上で実行してください。
 
 ```bash
-npx sirtai init
+npm install -g sirtai
+sirt doctor
+sirt endpoints
 ```
 
-The command prints the supported signup, API-key claim, and connection flow. It does not ask for or store your API key.
+`SIRT Brain is live（稼働中）` と表示されれば、SIRT.ai側は正常です。
 
-If you already have a key, open [Connect Center](https://app.sirtai.org/connect-center) or follow the [quickstart](https://app.sirtai.org/docs/quickstart).
+## 接続
 
-## Commands
+```bash
+sirt init
+```
 
-| Command | Description |
-|---------|-------------|
-| `sirt init` | Show the supported signup and connection flow |
-| `sirt endpoints` | Show current MCP and GPT endpoints |
-| `sirt doctor` | Check the live SIRT Brain service |
-| `sirt version` | Print the CLI version |
+申し込み、APIキーの受け取り、AIクライアントへの接続手順を表示します。このCLIはAPIキーを要求・保存しません。
 
-Current plans and prices are published on the [SIRT Brain pricing page](https://app.sirtai.org/pricing).
+APIキーを受け取った後は、[接続センター](https://app.sirtai.org/connect-center)または[接続ガイド](https://app.sirtai.org/docs/quickstart)から設定してください。
+
+## コマンド
+
+| コマンド | 内容 |
+|---------|------|
+| `sirt init` | 申し込みから接続までの手順を表示 |
+| `sirt endpoints` | 現在のMCP・GPT接続先を表示 |
+| `sirt doctor` | SIRT Brainの稼働状態を確認 |
+| `sirt version` | CLIのバージョンを表示 |
+
+料金は[料金ページ](https://app.sirtai.org/pricing)で確認できます。
 
 ## License
 
