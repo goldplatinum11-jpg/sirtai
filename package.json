@@ -1,7 +1,7 @@
 {
   "name": "sirtai",
-  "version": "0.1.0",
-  "description": "SIRT.ai — External memory for AI. Encrypted knowledge graph with semantic search.",
+  "version": "2.0.0",
+  "description": "SIRT Brain connection helper for Claude, ChatGPT, and MCP clients.",
   "bin": {
     "sirt": "bin/sirt.mjs"
   },
@@ -9,11 +9,23 @@
     "bin/sirt.mjs",
     "README.md"
   ],
+  "scripts": {
+    "test": "node --test"
+  },
   "type": "module",
-  "keywords": ["ai", "memory", "knowledge-graph", "mcp", "encryption", "semantic-search"],
+  "keywords": [
+    "ai",
+    "memory",
+    "mcp",
+    "claude",
+    "chatgpt"
+  ],
   "author": "SIRT.ai",
   "license": "MIT",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
