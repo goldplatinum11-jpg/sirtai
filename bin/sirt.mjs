@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const VERSION = "2.0.1";
+const VERSION = "2.1.0";
 const APP_URL = "https://app.sirtai.org";
 const SIGNUP_URL = `${APP_URL}/signup`;
 const CONNECT_URL = `${APP_URL}/connect-center`;
@@ -36,6 +36,37 @@ GPT Actions:            ${APP_URL}/gpt/v1
   ${QUICKSTART_URL}`);
 }
 
+const SAVE_PROMPT = `Use your current AI subscription to structure this conversation into one durable SIRT memory.
+Keep only a reusable decision, outcome, fact, constraint, unresolved question, or handoff.
+Search SIRT first when duplication is possible. Then call sirt_smart_save exactly once with:
+- summary: direct retrieval title, maximum 240 characters
+- body: complete standalone context, maximum 12,000 characters
+- the closest node_type and only useful stable labels
+Treat a duplicate response as already saved. Never call server crystallize, Night Run, URL ingest, or similarity tools. Never silently truncate.`;
+
+const DAILY_PROMPT = `Run the SIRT daily memory routine using your current AI subscription.
+Call sirt_nodes_list with sort=newest and limit=50. Identify the single most durable new outcome not already represented. If there is no material change, save nothing. Otherwise structure one canonical memory and call sirt_smart_save exactly once. Never call server crystallize or Night Run.`;
+
+const WEEKLY_PROMPT = `Run the SIRT weekly memory routine using your current AI subscription.
+Call sirt_nodes_list with sort=newest and limit=100. Find one durable decision, changed direction, or cross-session synthesis. Search its key terms before writing. Save nothing if an existing memory is sufficient; otherwise call sirt_smart_save exactly once, using supersedes_node_ids only when the new memory genuinely replaces older active memories. Never call server crystallize or Night Run.`;
+
+function printMemorySkill() {
+  console.log(`SIRT Memory（BYOS）\n\nこの指示を接続済みのClaude、ChatGPT、Grok、Codexへ渡してください。\n\n${SAVE_PROMPT}`);
+}
+
+function printRoutine(period) {
+  if (period === "daily") {
+    console.log(`SIRT Daily Routine（BYOS）\n\n${DAILY_PROMPT}`);
+    return;
+  }
+  if (period === "weekly") {
+    console.log(`SIRT Weekly Routine（BYOS）\n\n${WEEKLY_PROMPT}`);
+    return;
+  }
+  console.error("使い方: sirt routine daily | sirt routine weekly");
+  process.exitCode = 1;
+}
+
 function printHelp() {
   console.log(`sirt — SIRT Brain 接続ヘルパー v${VERSION}
 
@@ -43,6 +74,9 @@ function printHelp() {
   init          申し込みから接続までの手順を表示
   endpoints     現在のMCP・GPT接続先を表示
   doctor        SIRT Brainの稼働状態を確認
+  memory        接続AI側で1件の記憶を整理・保存する指示を表示
+  routine daily 接続AI側で日次ルーティーンを実行する指示を表示
+  routine weekly 接続AI側で週次ルーティーンを実行する指示を表示
   version       CLIのバージョンを表示
   help          このヘルプを表示
 
@@ -92,6 +126,13 @@ switch (command) {
     break;
   case "doctor":
     await doctor();
+    break;
+  case "memory":
+  case "skill":
+    printMemorySkill();
+    break;
+  case "routine":
+    printRoutine(process.argv[3]);
     break;
   case "version":
   case "--version":
